@@ -1,0 +1,37 @@
+1.HDFS FEDERTION AND HIGH AVAILABILITY:
+
+HDFs FEDERATION:
+
+Hadoop federation can be defined as the advanced architecture to overcome the limitations of current HDFS implementation.
+HDFS federation improves the existing HDFS architecture through a clear separation of namespace and storage, enabling generic block storage layer.
+It enables support for multiple namespaces in the cluster to improve scalability and isolation.
+Federation also opens up the architecture, expanding the applicability of HDFS cluster to new implementations and use cases.
+Hadoop federation allows scaling the name service horizontally. 
+It uses several namenodes or namespaces which are independent of each other.
+These independent namenodes are federated that is they don't require inter coordination. 
+
+HIGH AVAILABILITY:
+
+The standard configuration reduces the total availability of an HDFS cluster in two major ways->
+In the case of an unplanned event such as a host crash the cluster will be unavailable until an operator restarts the NameNode.
+Planned maintenance events such as software or hardware upgradration on the NameNode machine results in cluster breakdown.
+HDFS High Availability addresses the above problems by providing the option of running two NameNodes in the same cluster either in active or passive configuration. 
+These are referred to as the active NameNode and the standby NameNode. 
+The standby NameNode is the active standby which allows fast automatic failure to a new NameNode in the case of crashes or administrator initiated failure for the purpose of planned maintenance. 
+At the same time there cannot be more than two NameNodes.
+
+2.How HDFS handles failures while writing data:-
+
+In HDFS, files are divided into blocks, and file access follows multi-reader, single-writer semantics. 
+To meet the fault-tolerance requirement, multiple replicas of a block are stored on different DataNodes. 
+The number of replicas is called the replication factor. 
+When a new file block is created or an existing file is opened for append then the HDFS write operation creates a pipeline of DataNodes to receive and store the replicas.
+Subsequent writes to that block go through the pipeline. 
+When a DataNode in the pipeline detects an error that DataNode takes itself out of the pipeline by closing up all TCP/IP connections. 
+If the data is not corrupted it then writes the buffered data to the relevant block and metadata files.
+When the client detects the failure it stops sending data to the pipeline and reconstructs a new pipeline using the remaining good DataNodes.
+When the client detects a failure in the close state it rebuilds the pipeline with the remaining DataNodes. 
+
+
+
+
